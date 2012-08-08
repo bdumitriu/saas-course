@@ -47,3 +47,55 @@ class PalindromeTest < MiniTest::Unit::TestCase
     assert_equal true, palindrome?("foo-^+oof")
   end
 end
+
+class CountWordsTest < MiniTest::Unit::TestCase
+  def test_no_words_in_empty_string
+    words = count_words("")
+    assert_equal true, words.empty?
+  end
+
+  def test_one_word
+    words = count_words("foo")
+    assert_equal 1, words["foo"]
+    assert_equal 1, words.size
+  end
+
+  def test_one_word_multiple_times
+    words = count_words("foo FOO  foo&*&foo")
+    assert_equal 4, words["foo"]
+    assert_equal 1, words.size
+  end
+
+  def test_multiple_words
+    words = count_words("foo \nbar.baz")
+    assert_equal 1, words["foo"]
+    assert_equal 1, words["bar"]
+    assert_equal 1, words["baz"]
+    assert_equal 3, words.size
+  end
+  
+  def test_multiple_words_multiple_times
+    words = count_words("foo \nbar.foo..Foo//baz baz")
+    assert_equal 3, words["foo"]
+    assert_equal 1, words["bar"]
+    assert_equal 2, words["baz"]
+    assert_equal 3, words.size
+  end
+
+  def test_text_1
+    words = count_words("A man, a plan, a canal -- Panama")
+    assert_equal 3, words["a"]
+    assert_equal 1, words["man"]
+    assert_equal 1, words["plan"]
+    assert_equal 1, words["canal"]
+    assert_equal 1, words["panama"]
+    assert_equal 5, words.size
+  end
+
+  def test_text_2
+    words = count_words("Doo bee doo bee doo")
+    assert_equal 3, words["doo"]
+    assert_equal 2, words["bee"]
+    assert_equal 2, words.size
+  end
+end
